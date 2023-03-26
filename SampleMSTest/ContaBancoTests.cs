@@ -1,3 +1,4 @@
+using System.Security.Principal;
 using TestesDeSoftwareSample;
 
 namespace SampleMSTest
@@ -6,16 +7,55 @@ namespace SampleMSTest
     public class ContaBancoTests
     {
         [TestMethod]
-        public void TestSaldo()
+        public void TestInit()
         {
-            double valor_inicial = 5000;
-            double valor_saque = 2000;
-            double valor_esperado = 3000;
+            ContaBanco c = new ContaBanco("Cliente1", 1000);
+            Assert.IsNotNull(c);
+            Assert.AreEqual(1000, c.Saldo);
+            Assert.AreEqual("Cliente1", c.NomeCliente);
 
-            ContaBanco c = new ContaBanco("Cliente1", valor_inicial);
-            c.Saque(valor_saque);
+        }
+
+        [TestMethod]
+        public void TestSaque()
+        {
+            double valorInicial = 5000;
+            double valorSaque = 2000;
+            double valorEsperado = valorInicial-valorSaque;
+
+            ContaBanco c = new ContaBanco("Cliente1", valorInicial);
+
+            c.Saque(valorSaque);
             double valor_atual = c.Saldo;
-            Assert.AreEqual(valor_esperado, valor_atual);
+            Assert.AreEqual(valorEsperado, valor_atual);
+
+            Assert.ThrowsException<System.ArgumentOutOfRangeException>(() => c.Saque(6000));
+            Assert.ThrowsException<System.ArgumentOutOfRangeException>(() => c.Saque(-2));
+
+        }
+
+        [TestMethod]
+        public void TestDeposito()
+        {
+            ContaBanco c = new ContaBanco("Fulano", 1000);
+            c.Deposito(1000);
+            Assert.AreEqual(2000, c.Saldo);
+            Assert.ThrowsException<System.ArgumentOutOfRangeException>(() => c.Deposito(-2));
+
+        }
+
+        [TestMethod]
+        public void TestLog()
+        {
+            ContaBanco c = new ContaBanco("Audrey", 1200);
+            c.Deposito(100);
+            c.Deposito(200);
+            c.Saque(50);
+            c.Saque(150);
+            c.Deposito(100);
+
+            var qntOperacoes = c.LogOperacoes.Count;
+            Assert.AreEqual(5, qntOperacoes);
         }
     }
 }

@@ -10,7 +10,10 @@ namespace TestesDeSoftwareSample
     {
         public string NomeCliente { get; set; }
         public double Saldo { get; set; }
-        public List<string> LogOperacoes { get; set; }
+        public List<string> LogOperacoes {
+            get;
+            set;
+        }
 
         public ContaBanco(string cliente, double saldo)
         {
@@ -44,6 +47,9 @@ namespace TestesDeSoftwareSample
             Saldo += valor;
             LogOperacoes.Add($"Depósito no valor de {valor} efetuado em {DateTime.Now.ToString()}");
         }
+
+
+        
 
         public void PrintLog()
         {
