@@ -5,6 +5,18 @@ namespace SampleMSTest
     [TestClass]
     public class ContaBancoTests
     {
+
+        [TestInitialize]
+        public void Before()
+        {
+
+        }
+        [TestCleanup]
+        public void After()
+        {
+
+        }
+
         [TestMethod]
         public void TestInit()
         {

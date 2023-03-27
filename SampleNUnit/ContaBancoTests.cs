@@ -12,8 +12,13 @@ namespace SampleNUnit
         {
        
         }
+        [TearDown]
+        public void TearDown()
+        {
 
-        [Test]
+        }
+
+        [Test, Order(1)]
         public void TestCliente()
         {
             ContaBanco c = new ContaBanco("Pessoa", 1000);
@@ -21,7 +26,7 @@ namespace SampleNUnit
             Assert.That(c.Saldo, Is.EqualTo(1000));
         }
 
-        [Test]
+        [Test, Order(2)]
         public void TestSaque()
         {
             double valorInicial = 5000;
@@ -34,12 +39,16 @@ namespace SampleNUnit
             double valor_atual = c.Saldo;
             Assert.That(valor_atual, Is.EqualTo(valorEsperado));
 
-            Assert.Throws<System.ArgumentOutOfRangeException>(() => c.Saque(6000));
-            Assert.Throws<System.ArgumentOutOfRangeException>(() => c.Saque(-2));
+            Assert.Multiple(() =>
+            {
+                Assert.Throws<System.ArgumentOutOfRangeException>(() => c.Saque(6000));
+                Assert.Throws<System.ArgumentOutOfRangeException>(() => c.Saque(-2));
+            });
+            
 
         }
 
-        [Test]
+        [Test, Order(3)]
         public void TestDeposito()
         {
             ContaBanco c = new ContaBanco("Pessoa", 1000);
@@ -49,7 +58,7 @@ namespace SampleNUnit
 
         }
 
-        [Test]
+        [Test, Order(4)]
         public void TestLog()
         {
             ContaBanco c = new ContaBanco("Pessoa", 1200);
@@ -61,6 +70,7 @@ namespace SampleNUnit
 
             var qntOperacoes = c.LogOperacoes.Count;
             Assert.That(qntOperacoes, Is.EqualTo(5));
+            
         }
     }
 }
