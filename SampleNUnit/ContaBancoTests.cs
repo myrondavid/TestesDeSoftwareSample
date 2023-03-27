@@ -1,7 +1,8 @@
 using TestesDeSoftwareSample;
 
 namespace SampleNUnit
-{
+{   
+    [TestFixture]
     public class Tests
     {
 
