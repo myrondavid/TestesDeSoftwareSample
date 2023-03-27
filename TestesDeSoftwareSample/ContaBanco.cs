@@ -8,12 +8,17 @@ namespace TestesDeSoftwareSample
 {
     public class ContaBanco
     {
+        public const string SaldoInsuficienteMessage = "Saldo insuficiente";
+        public const string ValorNegativoMessage = "Valor negativo";
+
         public string NomeCliente { get; set; }
         public double Saldo { get; set; }
         public List<string> LogOperacoes {
             get;
             set;
         }
+
+        
 
         public ContaBanco(string cliente, double saldo)
         {
@@ -26,12 +31,12 @@ namespace TestesDeSoftwareSample
         {
             if (valor > Saldo)
             {
-                throw new ArgumentOutOfRangeException("Saldo insuficiente");
+                throw new ArgumentOutOfRangeException("valor", valor, SaldoInsuficienteMessage);
             }
                 
             if (valor < 0)
             {
-                throw new ArgumentOutOfRangeException("Valor negativo");
+                throw new ArgumentOutOfRangeException("valor", valor, ValorNegativoMessage);
             }
 
             Saldo -= valor;

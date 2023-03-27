@@ -1,6 +1,5 @@
 using System.Security.Principal;
 using TestesDeSoftwareSample;
-
 namespace SampleMSTest
 {
     [TestClass]
@@ -29,8 +28,26 @@ namespace SampleMSTest
             double valor_atual = c.Saldo;
             Assert.AreEqual(valorEsperado, valor_atual);
 
-            Assert.ThrowsException<System.ArgumentOutOfRangeException>(() => c.Saque(6000));
-            Assert.ThrowsException<System.ArgumentOutOfRangeException>(() => c.Saque(-2));
+            //Assert.ThrowsException<System.ArgumentOutOfRangeException>(() => c.Saque(6000));
+            //Assert.ThrowsException<System.ArgumentOutOfRangeException>(() => c.Saque(-2));
+
+            try
+            {
+                c.Saque(6000);
+            }
+            catch(System.ArgumentOutOfRangeException e)
+            {
+                StringAssert.Contains(e.Message, ContaBanco.SaldoInsuficienteMessage);
+            }
+            
+            try
+            {
+                c.Saque(-2);
+            }
+            catch (System.ArgumentOutOfRangeException e)
+            {
+                StringAssert.Contains(e.Message, ContaBanco.ValorNegativoMessage);
+            }
 
         }
 
