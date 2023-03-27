@@ -1,3 +1,4 @@
+using System.Security.Principal;
 using TestesDeSoftwareSample;
 
 namespace SampleNUnit
@@ -18,7 +19,6 @@ namespace SampleNUnit
             ContaBanco c = new ContaBanco("Pessoa", 1000);
             Assert.IsNotNull(c);
             Assert.That(c.Saldo, Is.EqualTo(1000));
-            Assert.Pass();
         }
 
         [Test]
@@ -34,6 +34,9 @@ namespace SampleNUnit
             double valor_atual = c.Saldo;
             Assert.That(valor_atual, Is.EqualTo(valorEsperado));
 
+            Assert.Throws<System.ArgumentOutOfRangeException>(() => c.Saque(6000));
+            Assert.Throws<System.ArgumentOutOfRangeException>(() => c.Saque(-2));
+
         }
 
         [Test]
@@ -42,6 +45,8 @@ namespace SampleNUnit
             ContaBanco c = new ContaBanco("Pessoa", 1000);
             c.Deposito(1000);
             Assert.That(c.Saldo, Is.EqualTo(2000));
+            Assert.Throws<System.ArgumentOutOfRangeException>(() => c.Deposito(-2));
+
         }
 
         [Test]
